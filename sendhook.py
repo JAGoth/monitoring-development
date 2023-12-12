@@ -1,21 +1,24 @@
 import requests
 import datetime
 
-url = "https://discord.com/api/webhooks/1183725396257144902/khDsd4n9m5Exg53ODdAefR88xN1Mq8UEU_cUYcsx7Rpd05tAGqrpXk7rfx9yulqKqBQ-"
+class Webhook():
 
-def SendMsg(msg:str):
+    def __init__(self, name:str, msg:str, url="https://discord.com/api/webhooks/1183725396257144902/khDsd4n9m5Exg53ODdAefR88xN1Mq8UEU_cUYcsx7Rpd05tAGqrpXk7rfx9yulqKqBQ-"):
+        self.name = name
+        self.msg = msg
+        self.url = url
 
-    data = {
-        'content' : msg,
-        'username': 'DER-L.O.G.'
+    def sendMessage(self):
+        data = {
+        'content' : self.msg,
+        'username': f'{self.name}'
     }
+        r = requests.post(self.url, json=data)
 
-    r = requests.post(url, json=data)
-
-    try:
-        r.raise_for_status()
-    except requests.exceptions.HTTPError as err:
-        print(err)
-    else:
-        timestamp = datetime.datetime.now()
-        print(f'Payload delivered with code {r.status_code} at {timestamp}')
+        try:
+            r.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            print(err)
+        else:
+            timestamp = datetime.datetime.now()
+            print(f'Payload delivered with code {r.status_code} at {timestamp}')
