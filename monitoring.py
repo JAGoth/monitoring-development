@@ -9,21 +9,21 @@ class GetMem():
 
     def __init__(self):
         self.mem = psutil.virtual_memory()
-    
+
     def get_total_mem(self, raw:bool=False):
         """Function outputs the total ram"""
         total_mem = round(self.mem.total / 1024 ** 3, 2)
         if raw:
             return total_mem
         return str(total_mem) + " GB"
-    
+
     def get_available_mem(self, raw:bool=False):
         """Function outputs the available ram"""
         av_mem = round(self.mem.available / 1024 ** 3, 2)
         if raw:
             return av_mem
         return str(av_mem) + " GB"
-    
+
     def get_used_mem(self, raw:bool=False):
         """Function outputs the used ram"""
         used_mem = round(self.mem.used / 1024 ** 3, 2)
