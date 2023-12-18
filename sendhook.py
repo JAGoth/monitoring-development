@@ -9,16 +9,22 @@ class Webhook():
         self.url = url
 
     def sendMessage(self):
+        # save data in a dict
         data = {
         'content' : self.msg,
         'username': f'{self.name}'
-    }
+        }
+        # create request to post with given data
         r = requests.post(self.url, json=data)
 
         try:
+            #
             r.raise_for_status()
         except requests.exceptions.HTTPError as err:
+            # print error if something goes wrong
             print(err)
         else:
+            # save current datetime
             timestamp = datetime.datetime.now()
+            # print if the request was succesfull http status and current datetime
             print(f'Payload delivered with code {r.status_code} at {timestamp}')
