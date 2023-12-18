@@ -3,7 +3,7 @@ import datetime
 
 class Webhook():
 
-    def __init__(self, name:str, msg:str, url="https://discord.com/api/webhooks/1183725396257144902/khDsd4n9m5Exg53ODdAefR88xN1Mq8UEU_cUYcsx7Rpd05tAGqrpXk7rfx9yulqKqBQ-"):
+    def __init__(self, name:str="Der-L.O.G.", msg:str="", url:str="https://discord.com/api/webhooks/1183725396257144902/khDsd4n9m5Exg53ODdAefR88xN1Mq8UEU_cUYcsx7Rpd05tAGqrpXk7rfx9yulqKqBQ-"):
         self.name = name
         self.msg = msg
         self.url = url
