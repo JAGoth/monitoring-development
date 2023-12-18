@@ -17,7 +17,7 @@ class Webhook():
         'username': f'{self.name}'
         }
         # create request to post with given data
-        r = requests.post(self.url, json=data)
+        r = requests.post(self.url, json=data, timeout=(5, 10))
 
         try:
             # send the request
