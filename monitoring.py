@@ -1,7 +1,7 @@
 """Monitoring script"""
 # Importing Libaries and local Files
-import psutil
 import os
+import psutil
 import sendhook
 
 class GetMem():
@@ -35,8 +35,3 @@ def write_log(path:str = f"{os.getcwd()}/log.log", log_entry:str = ""):
     """Function writes into a log"""
     with open(f'{path}', "a") as log:
         log.write(f"\n{log_entry}\n")
-
-funny_number = 42
-while True:
-    write_log(log_entry=F"{funny_number}")
-    funny_number += 27
