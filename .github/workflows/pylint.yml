@@ -23,4 +23,4 @@ jobs:
         pip install pylint psutil requests datetime
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files --errors-only '*.py') 
+        pylint $(git ls-files '*.py') --errors-only
