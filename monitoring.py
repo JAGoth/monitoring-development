@@ -2,7 +2,7 @@
 # Importing Libaries and local Files
 import os
 import psutil
-import sendhook
+#import sendhook
 
 class GetMem():
     """Gets ram information"""
@@ -33,5 +33,5 @@ class GetMem():
 
 def write_log(path:str = f"{os.getcwd()}/log.log", log_entry:str = ""):
     """Function writes into a log"""
-    with open(f'{path}', "a") as log:
+    with open(f'{path}', "a", encoding="utf-8") as log:
         log.write(f"\n{log_entry}\n")

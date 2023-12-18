@@ -1,3 +1,4 @@
+"""The webhook module"""
 import datetime
 import requests
 

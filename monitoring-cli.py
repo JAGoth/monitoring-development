@@ -1,7 +1,8 @@
+"""Monitoring commandline tool / W.I.P"""
 # W.I.P
 import argparse
-import psutil
 from time import sleep
+import psutil
 
 def memory():
     """testing argparse"""
