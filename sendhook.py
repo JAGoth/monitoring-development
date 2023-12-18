@@ -36,4 +36,5 @@ class Webhook():
             print(f'Payload delivered with code {r.status_code} at {timestamp}')
 
     def happy_pylint(self):
+        """Function only to make pylint happy"""
         pass
