@@ -4,6 +4,7 @@ import psutil
 from time import sleep
 
 def memory():
+    """testing argparse"""
     while True:
         try:
             mem = psutil.virtual_memory().available / 1024 ** 3
