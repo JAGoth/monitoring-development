@@ -34,3 +34,6 @@ class Webhook():
             timestamp = datetime.datetime.now()
             # print if the request was succesfull http status and current datetime
             print(f'Payload delivered with code {r.status_code} at {timestamp}')
+
+    def happy_pylint(self):
+        pass

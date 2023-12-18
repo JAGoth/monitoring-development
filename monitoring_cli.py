@@ -12,7 +12,7 @@ def memory():
             mem_str = str(round(mem, 2)) + " GB"
             print(mem_str)
             sleep(0.5)
-        except:
+        except KeyboardInterrupt:
             break
 
 FUNCTION_MAP = {
