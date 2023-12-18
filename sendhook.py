@@ -37,4 +37,4 @@ class Webhook():
 
     def happy_pylint(self):
         """Function only to make pylint happy"""
-        pass
+        print("(^ u ^)")
