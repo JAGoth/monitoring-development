@@ -1,11 +1,17 @@
 # W.I.P
 import argparse
 import psutil
+from time import sleep
 
 def memory():
-    mem = psutil.virtual_memory().available / 1024 / 1024 / 1024
-    mem_str = str(round(mem, 2)) + " GB"
-    print(mem_str)
+    while True:
+        try:
+            mem = psutil.virtual_memory().available / 1024 ** 3
+            mem_str = str(round(mem, 2)) + " GB"
+            print(mem_str)
+            sleep(0.5)
+        except:
+            break
 
 FUNCTION_MAP = {
     'mem' : memory
