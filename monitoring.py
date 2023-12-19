@@ -11,7 +11,7 @@ class GetCPU():
     def __init__(self):
         self.system = platform.system().lower()
         if self.system == "linux":
-            self.cpu_temp = psutil.psutil.sensors_temperatures()['coretemp'][0].current
+            self.cpu_temp = psutil.sensors_temperatures()['coretemp'][0].current
         self.cpu_load = psutil.cpu_percent
         self.cpu_core_count = psutil.cpu_count
         self.cpu_freq = psutil.cpu_freq
@@ -20,9 +20,8 @@ class GetCPU():
         """Function outputs current cpu temp"""
         if self.system == "linux":
             return self.cpu_temp
-        else:
-            err_msg = f"Sorry the {self.system} os isn't supported. :("
-            return err_msg
+        err_msg = f"Sorry the {self.system} os isn't supported. :("
+        return err_msg
 
     def frequency(self, per_core:bool=False):
         """Function outputs current frequenzy"""
