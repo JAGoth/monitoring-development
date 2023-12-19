@@ -51,20 +51,17 @@ class GetDisk():
                 total_space_kb = psutil.disk_usage(disk.mountpoint).total
                 free_space_kb = psutil.disk_usage(disk.mountpoint).free
                 used_space_kb = psutil.disk_usage(disk.mountpoint).used
-                
+
                 disks_data[disk.mountpoint] = [used_space_kb, free_space_kb, total_space_kb]
 
     def get_total_space(self, disk:str):
         """Function outputs the total space"""
-        pass
 
     def get_free_space(self, disk:str):
         """Function outputs the free space"""
-        pass
 
     def get_used_space(self, disk:str):
         """Function outputs space that is used"""
-        pass
 
 class GetMem():
     """Gets ram information"""
@@ -102,4 +99,4 @@ def calculate_storage(storage_value:int, storage_unit:str):
     """Function for storage/ram amount calulation"""
     if storage_unit == "GiB":
         out = storage_value / 1024 ** 3
-        return out
+    return out
