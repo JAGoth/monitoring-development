@@ -42,6 +42,30 @@ class GetCPU():
         core_count = self.cpu_core_count(logical=per_thread)
         return core_count
 
+class GetDisk():
+    """Gets storage information"""
+    def __init__(self):
+        disks_data = {}
+        for disk in psutil.disk_partitions():
+            if disk.fstype.lower() in ("ext4", "ntfs", "xfs", "hfs+", "fat32"):
+                total_space_kb = psutil.disk_usage(disk.mountpoint).total
+                free_space_kb = psutil.disk_usage(disk.mountpoint).free
+                used_space_kb = psutil.disk_usage(disk.mountpoint).used
+                
+                disks_data[disk.mountpoint] = [used_space_kb, free_space_kb, total_space_kb]
+
+    def get_total_space(self, disk:str):
+        """Function outputs the total space"""
+        pass
+
+    def get_free_space(self, disk:str):
+        """Function outputs the free space"""
+        pass
+
+    def get_used_space(self, disk:str):
+        """Function outputs space that is used"""
+        pass
+
 class GetMem():
     """Gets ram information"""
 
@@ -73,3 +97,9 @@ def write_log(path:str = f"{os.getcwd()}/log.log", log_entry:str = ""):
     """Function writes into a log"""
     with open(f'{path}', "a", encoding="utf-8") as log:
         log.write(f"\n{log_entry}\n")
+
+def calculate_storage(storage_value:int, storage_unit:str):
+    """Function for storage/ram amount calulation"""
+    if storage_unit == "GiB":
+        out = storage_value / 1024 ** 3
+        return out
