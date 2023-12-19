@@ -1,8 +1,43 @@
 """Monitoring script"""
 # Importing Libaries and local Files
+from time import sleep
 import os
+import platform
 import psutil
 #import sendhook
+
+class GetCPU():
+    """Gets CPU information"""
+    def __init__(self):
+        self.system = platform.system().lower()
+        if self.system == "linux":
+            self.cpu_temp = psutil.psutil.sensors_temperatures()['coretemp'][0].current
+        self.cpu_load = psutil.cpu_percent
+        self.cpu_core_count = psutil.cpu_count
+        self.cpu_freq = psutil.cpu_freq
+
+    def temprature(self):
+        """Function outputs current cpu temp"""
+        if self.system == "linux":
+            return self.cpu_temp
+        pass
+
+    def frequency(self, per_core:bool=False):
+        """Function outputs current frequenzy"""
+        return self.cpu_freq(percpu=per_core)
+
+    def load(self, per_thread:bool=False):
+        """Function outputs current load"""
+        loop_var = 0
+        while loop_var != 2:
+            cpu_load_avg = psutil.cpu_percent(percpu=per_thread)
+            loop_var += 1
+            sleep(0.5)
+        return cpu_load_avg
+
+    def show_core_count(self, per_thread:bool=False):
+        """Function outputs core count"""
+        return self.cpu_core_count(logical=per_thread)
 
 class GetMem():
     """Gets ram information"""
