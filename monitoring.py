@@ -20,11 +20,14 @@ class GetCPU():
         """Function outputs current cpu temp"""
         if self.system == "linux":
             return self.cpu_temp
-        pass
+        else:
+            err_msg = f"Sorry the {self.system} os isn't supported. :("
+            return err_msg
 
     def frequency(self, per_core:bool=False):
         """Function outputs current frequenzy"""
-        return self.cpu_freq(percpu=per_core)
+        cpu_freq = self.cpu_freq(percpu=per_core)
+        return cpu_freq
 
     def load(self, per_thread:bool=False):
         """Function outputs current load"""
@@ -37,7 +40,8 @@ class GetCPU():
 
     def show_core_count(self, per_thread:bool=False):
         """Function outputs core count"""
-        return self.cpu_core_count(logical=per_thread)
+        core_count = self.cpu_core_count(logical=per_thread)
+        return core_count
 
 class GetMem():
     """Gets ram information"""
