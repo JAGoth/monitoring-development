@@ -57,17 +57,20 @@ class GetDisk():
 
     def get_total_space(self, disk:str = ""):
         """Function outputs the total space"""
-        total_space_gib = round(self.disks_data[f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"][2] / 1024 ** 3, 2)
+        disk_chose = f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"
+        total_space_gib = round(self.disks_data[disk_chose][2] / 1024 ** 3, 2)
         return total_space_gib
 
     def get_free_space(self, disk:str):
         """Function outputs the free space"""
-        free_space_gib = round(self.disks_data[f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"][1] / 1024 ** 3, 2)
+        disk_chose = f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"
+        free_space_gib = round(self.disks_data[disk_chose][1] / 1024 ** 3, 2)
         return free_space_gib
 
     def get_used_space(self, disk:str = ""):
         """Function outputs space that is used"""
-        free_space_gib = round(self.disks_data[f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"][0] / 1024 ** 3, 2)
+        disk_chose = f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"
+        free_space_gib = round(self.disks_data[disk_chose][0] / 1024 ** 3, 2)
         return free_space_gib
 
 class GetMem():
@@ -99,5 +102,6 @@ class GetMem():
 
 def write_log(path:str = f"{os.getcwd()}", log_entry:str = "", log_user:str = ""):
     """Function writes into a log"""
-    with open(f"{path}/{f'{log_user}-' if log_user != '' else ''}log-{datetime.date.today()}.log", "a", encoding="utf-8") as log:
+    log_file = f"{path}/{f'{log_user}-' if log_user != '' else ''}log-{datetime.date.today()}.log"
+    with open(log_file, "a", encoding="utf-8") as log:
         log.write(f"{log_entry}")
