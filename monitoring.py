@@ -24,45 +24,51 @@ class GetCPU():
         err_msg = f"Sorry the {self.system} os isn't supported. :("
         return err_msg
 
-    def frequency(self, per_core:bool=False):
+    def frequency(self, per_core:bool = False):
         """Function outputs current frequenzy"""
         cpu_freq = self.cpu_freq(percpu=per_core)
         return cpu_freq
 
-    def load(self, per_thread:bool=False):
+    def load(self, per_thread:bool = False):
         """Function outputs current load"""
         loop_var = 0
         while loop_var != 2:
-            cpu_load_avg = psutil.cpu_percent(percpu=per_thread)
+            cpu_load_avg = psutil.cpu_percent(percpu = per_thread)
             loop_var += 1
             sleep(0.5)
         return cpu_load_avg
 
-    def show_core_count(self, per_thread:bool=False):
+    def show_core_count(self, per_thread:bool = False):
         """Function outputs core count"""
-        core_count = self.cpu_core_count(logical=per_thread)
+        core_count = self.cpu_core_count(logical = per_thread)
         return core_count
 
 class GetDisk():
     """Gets storage information"""
     def __init__(self):
-        disks_data = {}
+        self.disks_data = {}
         for disk in psutil.disk_partitions():
             if disk.fstype.lower() in ("ext4", "ntfs", "xfs", "hfs+", "fat32"):
                 total_space_kb = psutil.disk_usage(disk.mountpoint).total
                 free_space_kb = psutil.disk_usage(disk.mountpoint).free
                 used_space_kb = psutil.disk_usage(disk.mountpoint).used
 
-                disks_data[disk.mountpoint] = [used_space_kb, free_space_kb, total_space_kb]
+                self.disks_data[disk.mountpoint] = [used_space_kb, free_space_kb, total_space_kb]
 
-    def get_total_space(self, disk:str):
+    def get_total_space(self, disk:str = ""):
         """Function outputs the total space"""
+        total_space_gib = round(self.disks_data[disk][2] / 1024 ** 3, 2)
+        return total_space_gib
 
     def get_free_space(self, disk:str):
         """Function outputs the free space"""
+        free_space_gib = round(self.disks_data[disk][1] / 1024 ** 3, 2)
+        return free_space_gib
 
-    def get_used_space(self, disk:str):
+    def get_used_space(self, disk:str = ""):
         """Function outputs space that is used"""
+        free_space_gib = round(self.disks_data[disk][0] / 1024 ** 3, 2)
+        return free_space_gib
 
 class GetMem():
     """Gets ram information"""
@@ -70,28 +76,28 @@ class GetMem():
     def __init__(self):
         self.mem = psutil.virtual_memory()
 
-    def get_total_mem(self, raw:bool=False):
+    def get_total_mem(self, raw:bool = False):
         """Function outputs the total ram"""
         total_mem = round(self.mem.total / 1024 ** 3, 2)
         if raw:
             return total_mem
         return str(total_mem) + " GB"
 
-    def get_available_mem(self, raw:bool=False):
+    def get_available_mem(self, raw:bool = False):
         """Function outputs the available ram"""
         av_mem = round(self.mem.available / 1024 ** 3, 2)
         if raw:
             return av_mem
         return str(av_mem) + " GB"
 
-    def get_used_mem(self, raw:bool=False):
+    def get_used_mem(self, raw:bool = False):
         """Function outputs the used ram"""
         used_mem = round(self.mem.used / 1024 ** 3, 2)
         if raw:
             return used_mem
         return str(used_mem) + " GB"
 
-def write_log(path:str = f"{os.getcwd()}/log-{datetime.date.today()}.log", log_entry:str = ""):
+def write_log(path:str = f"{os.getcwd()}", log_entry:str = "", log_user:str = ""):
     """Function writes into a log"""
-    with open(f'{path}', "a", encoding="utf-8") as log:
+    with open(f"{path}/{f'{log_user}-' if log_user != '' else ''}log-{datetime.date.today()}.log", "a", encoding="utf-8") as log:
         log.write(f"{log_entry}")
