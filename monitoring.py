@@ -1,6 +1,7 @@
 """Monitoring script"""
 # Importing Libaries and local Files
 from time import sleep
+import datetime
 import os
 import platform
 import psutil
@@ -90,13 +91,7 @@ class GetMem():
             return used_mem
         return str(used_mem) + " GB"
 
-def write_log(path:str = f"{os.getcwd()}/log.log", log_entry:str = ""):
+def write_log(path:str = f"{os.getcwd()}/log-{datetime.date.today()}.log", log_entry:str = ""):
     """Function writes into a log"""
     with open(f'{path}', "a", encoding="utf-8") as log:
-        log.write(f"\n{log_entry}\n")
-
-def calculate_storage(storage_value:int, storage_unit:str):
-    """Function for storage/ram amount calulation"""
-    if storage_unit == "GiB":
-        out = storage_value / 1024 ** 3
-    return out
+        log.write(f"{log_entry}")
