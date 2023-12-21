@@ -57,17 +57,17 @@ class GetDisk():
 
     def get_total_space(self, disk:str = ""):
         """Function outputs the total space"""
-        total_space_gib = round(self.disks_data[disk][2] / 1024 ** 3, 2)
+        total_space_gib = round(self.disks_data[f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"][2] / 1024 ** 3, 2)
         return total_space_gib
 
     def get_free_space(self, disk:str):
         """Function outputs the free space"""
-        free_space_gib = round(self.disks_data[disk][1] / 1024 ** 3, 2)
+        free_space_gib = round(self.disks_data[f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"][1] / 1024 ** 3, 2)
         return free_space_gib
 
     def get_used_space(self, disk:str = ""):
         """Function outputs space that is used"""
-        free_space_gib = round(self.disks_data[disk][0] / 1024 ** 3, 2)
+        free_space_gib = round(self.disks_data[f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"][0] / 1024 ** 3, 2)
         return free_space_gib
 
 class GetMem():
