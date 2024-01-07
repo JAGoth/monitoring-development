@@ -1,22 +1,46 @@
 """Monitoring commandline tool / W.I.P"""
 # W.I.P
 import argparse
-from time import sleep
-import psutil
+import monitoring
+import os
+import time
 
-def memory():
-    """testing argparse"""
+def draw_graph(value, graph_name):
+    """draws the graph"""
+    percentage = value / 100
+    progress = int(percentage * 50)
+    remaining = 50 - progress
+    graph = '[' + '|' * progress + ' ' * remaining + '] ' + str(int(percentage * 100)) + '%' + graph_name
+    return graph
+
+def update_graphs(values, graph_name):
+    """updates graph"""
+    os.system('clear')
+    for i in range(len(values)):
+        print(draw_graph(values[i], graph_name[i]))
+    time.sleep(0.1)
+
+# Initialisieren Sie die Werte und maximalen Werte für die Graphen
+def create_graph():
+    """creates graph"""
+    values = [0, 0, 0]
+    graph_name = [" Memory Used", " CPU Load", " Storage Used"]
+
+
+
+    # Aktualisieren Sie die Graphen in einer Endlosschleife
     while True:
-        try:
-            mem = psutil.virtual_memory().available / 1024 ** 3
-            mem_str = str(round(mem, 2)) + " GB"
-            print(mem_str)
-            sleep(0.5)
-        except KeyboardInterrupt:
-            break
+        mem = monitoring.GetMem()
+        storage = monitoring.GetDisk()
+        values[0] = mem.get_used_mem(raw=True) / mem.get_total_mem(raw=True) * 100
+        values[1] = monitoring.GetCPU().load()
+        values[2] = storage.get_used_space() / storage.get_total_space() * 100
+        update_graphs(values, graph_name)
+
+
 
 FUNCTION_MAP = {
-    'mem' : memory
+    'monitor' : create_graph
 }
 
 parser = argparse.ArgumentParser()

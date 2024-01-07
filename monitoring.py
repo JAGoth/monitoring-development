@@ -32,10 +32,12 @@ class GetCPU():
     def load(self, per_thread:bool = False):
         """Function outputs current load"""
         loop_var = 0
-        while loop_var != 2:
+        while loop_var != 2 and self.system != "linux":
             cpu_load_avg = psutil.cpu_percent(percpu = per_thread)
             loop_var += 1
             sleep(0.5)
+        if self.system == "linux":
+            cpu_load_avg = psutil.cpu_percent(percpu = per_thread)
         return cpu_load_avg
 
     def show_core_count(self, per_thread:bool = False):
@@ -61,7 +63,7 @@ class GetDisk():
         total_space_gib = round(self.disks_data[disk_chose][2] / 1024 ** 3, 2)
         return total_space_gib
 
-    def get_free_space(self, disk:str):
+    def get_free_space(self, disk:str = ""):
         """Function outputs the free space"""
         disk_chose = f"{disk}" if disk != "" else f"{next(iter(self.disks_data))}"
         free_space_gib = round(self.disks_data[disk_chose][1] / 1024 ** 3, 2)
@@ -81,27 +83,28 @@ class GetMem():
 
     def get_total_mem(self, raw:bool = False):
         """Function outputs the total ram"""
-        total_mem = round(self.mem.total / 1024 ** 3, 2)
+        total_mem = round(self.mem.total / 1000 ** 3, 2)
         if raw:
             return total_mem
         return str(total_mem) + " GB"
 
     def get_available_mem(self, raw:bool = False):
         """Function outputs the available ram"""
-        av_mem = round(self.mem.available / 1024 ** 3, 2)
+        av_mem = round(self.mem.available / 1000 ** 3, 2)
         if raw:
             return av_mem
         return str(av_mem) + " GB"
 
     def get_used_mem(self, raw:bool = False):
         """Function outputs the used ram"""
-        used_mem = round(self.mem.used / 1024 ** 3, 2)
+        used_mem = round(self.mem.used / 1000 ** 3, 2)
         if raw:
             return used_mem
         return str(used_mem) + " GB"
 
 def write_log(path:str = f"{os.getcwd()}", log_entry:str = "", log_user:str = ""):
     """Function writes into a log"""
-    log_file = f"{path}/{f'{log_user}-' if log_user != '' else ''}log-{datetime.date.today()}.log"
+    date_time = datetime.datetime.now()
+    log_file = f"{path}/{f'{log_user}-' if log_user != '' else ''}log-{date_time.date()}.log"
     with open(log_file, "a", encoding="utf-8") as log:
-        log.write(f"{log_entry}")
+        log.write(f"\n[{date_time.strftime('%H:%M:%S')}] {log_entry}")
