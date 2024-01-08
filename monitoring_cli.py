@@ -40,8 +40,6 @@ def create_graph():
         values[2] = storage.get_used_space() / storage.get_total_space() * 100
         update_graphs(values, graph_name)
 
-
-
 FUNCTION_MAP = {
     'monitor' : create_graph
 }
