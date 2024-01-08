@@ -19,7 +19,7 @@ class GetCPU():
         """Function outputs current cpu temp"""
         if self.is_linux:
             return self.cpu_temp
-        err_msg = f"Sorry your os isn't supported. :("
+        err_msg = "Sorry your os isn't supported. :("
         return err_msg
 
     def frequency(self, per_core:bool = False):
@@ -30,7 +30,7 @@ class GetCPU():
     def load(self, per_thread:bool = False):
         """Function outputs current load"""
         loop_var = 0
-        while loop_var != 2 and self.is_linux == False:
+        while loop_var != 2 and not self.is_linux:
             cpu_load_avg = psutil.cpu_percent(percpu = per_thread)
             loop_var += 1
             sleep(0.5)

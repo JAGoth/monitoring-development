@@ -16,9 +16,8 @@ def draw_graph(value, graph_name):
 
 def update_graphs(values, graph_name):
     """updates graph"""
-    
-    print(monitoring.GetCPU.system())
-    os.system('cls')
+    if not monitoring.GetCPU().is_linux:
+        os.system('cls')
     for i in enumerate(values):
         print(draw_graph(values[i], graph_name[i]))
     time.sleep(0.1)
@@ -28,8 +27,6 @@ def create_graph():
     """creates graph"""
     values = [0, 0, 0]
     graph_name = [" Memory Used", " CPU Load", " Storage Used"]
-
-
 
     # Aktualisieren Sie die Graphen in einer Endlosschleife
     while True:
