@@ -1,22 +1,25 @@
 """Monitoring commandline tool / W.I.P"""
 # W.I.P
 import argparse
-import monitoring
 import os
 import time
+import monitoring
 
 def draw_graph(value, graph_name):
     """draws the graph"""
     percentage = value / 100
     progress = int(percentage * 50)
     remaining = 50 - progress
-    graph = '[' + '|' * progress + ' ' * remaining + '] ' + str(int(percentage * 100)) + '%' + graph_name
+    graph_percentage = str(int(percentage * 100))
+    graph = '[' + '|' * progress + ' ' * remaining + '] ' + graph_percentage + '%' + graph_name
     return graph
 
 def update_graphs(values, graph_name):
     """updates graph"""
-    os.system('clear')
-    for i in range(len(values)):
+    
+    print(monitoring.GetCPU.system())
+    os.system('cls')
+    for i in enumerate(values):
         print(draw_graph(values[i], graph_name[i]))
     time.sleep(0.1)
 
