@@ -3,15 +3,13 @@
 from time import sleep
 import datetime
 import os
-import platform
 import psutil
-#import sendhook
 
 class GetCPU():
     """Gets CPU information"""
     def __init__(self):
-        self.system = platform.system().lower()
-        if self.system == "linux":
+        self.is_linux = psutil.LINUX
+        if self.is_linux:
             self.cpu_temp = psutil.sensors_temperatures()['coretemp'][0].current
         self.cpu_load = psutil.cpu_percent
         self.cpu_core_count = psutil.cpu_count
@@ -19,9 +17,9 @@ class GetCPU():
 
     def temprature(self):
         """Function outputs current cpu temp"""
-        if self.system == "linux":
+        if self.is_linux:
             return self.cpu_temp
-        err_msg = f"Sorry the {self.system} os isn't supported. :("
+        err_msg = f"Sorry your os isn't supported. :("
         return err_msg
 
     def frequency(self, per_core:bool = False):
@@ -32,11 +30,11 @@ class GetCPU():
     def load(self, per_thread:bool = False):
         """Function outputs current load"""
         loop_var = 0
-        while loop_var != 2 and self.system != "linux":
+        while loop_var != 2 and self.is_linux == False:
             cpu_load_avg = psutil.cpu_percent(percpu = per_thread)
             loop_var += 1
             sleep(0.5)
-        if self.system == "linux":
+        if self.is_linux:
             cpu_load_avg = psutil.cpu_percent(percpu = per_thread)
         return cpu_load_avg
 
