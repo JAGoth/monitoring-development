@@ -1,3 +1,8 @@
+<div align=center>
+    <img src="./logo.png">
+    <br />
+</div>
+
 Das ist eine aufgabe von einer Berufsschul aufgabe.
 
 Lernfeld 08 - Daten systemübergreifend bereitstellen
