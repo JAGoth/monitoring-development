@@ -41,5 +41,10 @@ def main():
     monitoring.write_log(log_entry=log_save)
 
 while True:
-    main()
-    sleep(5)
+    try:
+        main()
+        sleep(5)
+    except:
+        err = "Monitoring Tool Crashed"
+        monitoring.write_log(log_entry=err)
+        break
