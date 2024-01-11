@@ -18,8 +18,10 @@ def update_graphs(values, graph_name):
     """updates graph"""
     if not monitoring.GetCPU().is_linux:
         os.system('cls')
-    for i in enumerate(values):
-        print(draw_graph(values[i], graph_name[i]))
+    else:
+        os.system('clear')
+    for i, values in enumerate(values):
+        print(draw_graph(values, graph_name[i]))
     time.sleep(0.1)
 
 # Initialisieren Sie die Werte und maximalen Werte für die Graphen
@@ -45,8 +47,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('command', choices=FUNCTION_MAP.keys())
 
 args = parser.parse_args()
-
-print(args.command)
 
 func = FUNCTION_MAP[args.command]
 func()
