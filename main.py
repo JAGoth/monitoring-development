@@ -46,6 +46,6 @@ while True:
         main()
         sleep(5)
     except RuntimeError:
-        err = "Monitoring Tool Crashed"
-        monitoring.write_log(log_entry=err)
+        VAR_ERROR = "Monitoring Tool Crashed"
+        monitoring.write_log(log_entry=VAR_ERROR)
         break
