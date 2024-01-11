@@ -5,6 +5,7 @@ import sendhook
 
 def main():
     """Monitoring"""
+    # Values ar in GB and °C
     threshold = {
         "mem" : 1,
         "storage" : 10,
@@ -44,7 +45,7 @@ while True:
     try:
         main()
         sleep(5)
-    except:
+    except RuntimeError:
         err = "Monitoring Tool Crashed"
         monitoring.write_log(log_entry=err)
         break

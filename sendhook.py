@@ -3,7 +3,7 @@ import datetime
 import requests
 
 class Webhook():
-    """Sends message to webhook if initiated"""
+    """Sends message to discord webhook if initiated"""
     url_f="https://discord.com/api/webhooks/1183725396257144902/khDsd4n"
     url_s="9m5Exg53ODdAefR88xN1Mq8UEU_cUYcsx7Rpd05tAGqrpXk7rfx9yulqKqBQ-"
     f_url = url_f + url_s

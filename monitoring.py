@@ -1,5 +1,5 @@
 """Monitoring script"""
-# Importing Libaries and local Files
+# Importing Libaries
 from time import sleep
 import datetime
 import os
@@ -8,6 +8,7 @@ import psutil
 class GetCPU():
     """Gets CPU information"""
     def __init__(self):
+        #Check if system is Linux
         self.is_linux = psutil.LINUX
         if self.is_linux:
             self.cpu_temp = psutil.sensors_temperatures()['coretemp'][0].current
@@ -30,6 +31,7 @@ class GetCPU():
     def load(self, per_thread:bool = False):
         """Function outputs current load"""
         loop_var = 0
+        # Loop to get cpu load on not Linux systems
         while loop_var != 2 and not self.is_linux:
             cpu_load_avg = psutil.cpu_percent(percpu = per_thread)
             loop_var += 1
@@ -81,21 +83,21 @@ class GetMem():
 
     def get_total_mem(self, raw:bool = False):
         """Function outputs the total ram"""
-        total_mem = round(self.mem.total / 1000 ** 3, 2)
+        total_mem = round(self.mem.total / 1024 ** 3, 2)
         if raw:
             return total_mem
         return str(total_mem) + " GB"
 
     def get_available_mem(self, raw:bool = False):
         """Function outputs the available ram"""
-        av_mem = round(self.mem.available / 1000 ** 3, 2)
+        av_mem = round(self.mem.available / 1024 ** 3, 2)
         if raw:
             return av_mem
         return str(av_mem) + " GB"
 
     def get_used_mem(self, raw:bool = False):
         """Function outputs the used ram"""
-        used_mem = round(self.mem.used / 1000 ** 3, 2)
+        used_mem = round(self.mem.used / 1024 ** 3, 2)
         if raw:
             return used_mem
         return str(used_mem) + " GB"

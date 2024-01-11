@@ -1,5 +1,4 @@
 """Monitoring commandline tool / W.I.P"""
-# W.I.P
 import argparse
 import os
 import time
@@ -20,8 +19,8 @@ def update_graphs(values, graph_name):
         os.system('cls')
     else:
         os.system('clear')
-    for i, values in enumerate(values):
-        print(draw_graph(values, graph_name[i]))
+    for i, value in enumerate(values):
+        print(draw_graph(value, graph_name[i]))
     time.sleep(0.1)
 
 # Initialisieren Sie die Werte und maximalen Werte für die Graphen
