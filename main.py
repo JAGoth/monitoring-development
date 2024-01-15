@@ -16,7 +16,6 @@ def main():
     mem = monitoring.GetMem()
     storage = monitoring.GetDisk()
     
-
     av_mem_raw = mem.get_available_mem(raw = True)
     av_disk_space = storage.get_free_space()
     cpu_temp = cpu.temprature()
@@ -41,18 +40,18 @@ def compare(resource, threshold, get_value, get_unit="",is_high=True):
     send_msg = sendhook.Webhook
     value = get_value()
     if is_high:
-        if value >= threshold["soft"] and value < threshold["hard"]:
-            msg = f"<| {resource} ist zu hoch [{value}{get_unit}] |>"
-            send_msg(msg = msg)
-        elif value >= threshold["hard"]:
+        if value >= threshold["hard"]:
             msg = f"<| Warnung {resource} ist zu hoch [{value}{get_unit}] |>"
             send_msg(msg = msg)
+        elif value >= threshold["soft"]:
+            msg = f"<| {resource} ist zu hoch [{value}{get_unit}] |>"
+            send_msg(msg = msg)
     else:
-        if value <= threshold["soft"] and value > threshold["hard"]:
-            msg = f"<| {resource} ist zu niedrig [{value}{get_unit}] |>"
-            send_msg(msg=msg)
-        elif value <= threshold["hard"]:
+        if value <= threshold["hard"]:
             msg = f"<| Warnung {resource} ist zu niedrig [{value}{get_unit}] |>"
+            send_msg(msg=msg)
+        elif value <= threshold["soft"]:
+            msg = f"<| {resource} ist zu niedrig [{value}{get_unit}] |>"
             send_msg(msg=msg)
 
 while True:
