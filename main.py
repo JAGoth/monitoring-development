@@ -15,7 +15,7 @@ def main():
     cpu = monitoring.GetCPU()
     mem = monitoring.GetMem()
     storage = monitoring.GetDisk()
-    
+
     av_mem_raw = mem.get_available_mem(raw = True)
     av_disk_space = storage.get_free_space()
     cpu_temp = cpu.temprature()
@@ -39,6 +39,7 @@ def compare(resource, threshold, get_value, get_unit="",is_high=True):
     "Compares resource with threshold"
     send_msg = sendhook.Webhook
     value = get_value()
+
     if is_high:
         if value >= threshold["hard"]:
             msg = f"<| Warnung {resource} ist zu hoch [{value}{get_unit}] |>"
