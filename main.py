@@ -63,4 +63,3 @@ while True:
         VAR_ERROR = "Monitoring Tool Crashed"
         monitoring.write_log(log_entry=VAR_ERROR)
         break
-
