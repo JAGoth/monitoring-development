@@ -1,0 +1,50 @@
+name: Python package
+
+on:
+  push:
+    branches:
+    - dev
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["pypy3.9", "pypy3.10", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python --version
+      - name: Run unit test
+        run: |
+          python -c "
+          import unittest
+          import os
+
+          # Your function to test
+          def my_function(x, y):
+              return x + y
+
+          # Unit test
+          class TestMyFunction(unittest.TestCase):
+              def test_addition(self):
+                  self.assertEqual(my_function(1, 2), 3)
+
+          if __name__ == '__main__':
+              loader = unittest.TestLoader()
+
+              # Discover .py files
+              start_dir = os.getcwd()
+              pattern = '*.py'
+
+              suite = loader.discover(start_dir, pattern=pattern)
+
+              runner = unittest.TextTestRunner()
+              runner.run(suite)
+          "
