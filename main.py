@@ -7,9 +7,9 @@ def main():
     """Monitoring"""
     # Values ar in GB and °C
     threshold = {
-        "mem" : 1,
-        "storage" : 10,
-        "temp": 90
+    "mem": {"hard": 1, "soft": 2},
+    "storage": {"hard": 15, "soft": 30},
+    "temp": {"hard": 95, "soft": 85}
     }
 
     cpu = monitoring.GetCPU()
@@ -21,16 +21,28 @@ def main():
     av_disk_space = storage.get_free_space()
     cpu_temp = cpu.temprature()
 
-    if av_mem_raw <= threshold["mem"]:
+    if av_mem_raw <= threshold["mem"]["soft"] and av_mem_raw > threshold["mem"]["hard"]:
         msg = f"<| Ramkapazität ist zu niedrig [{mem.get_available_mem()}] |>"
         send_msg(msg=msg)
 
-    if av_disk_space <= threshold["storage"]:
-        msg = f"<| Speicherkapazität beträgt nur noch [{storage.get_free_space()} GB] |>"
+    if av_mem_raw <= threshold["mem"]["hard"]:
+        msg = f"<| Warnung Ramkapazität ist zu niedrig [{mem.get_available_mem()}] |>"
         send_msg(msg=msg)
 
-    if cpu.is_linux and cpu_temp >= threshold["temp"]:
+    if av_disk_space <= threshold["storage"]["soft"] and av_disk_space > threshold["storage"]["hard"]: 
+        msg = f"<| Speicherkapazität beträgt nur noch [{storage.get_free_space()} GB] |>"
+        send_msg(msg=msg)
+    
+    if av_disk_space <= threshold["storage"]["hard"]:
+        msg = f"<| Warnung Speicherkapazität beträgt nur noch [{storage.get_free_space()} GB] |>"
+        send_msg(msg=msg)
+
+    if cpu.is_linux and cpu_temp >= threshold["temp"]["soft"] and cpu_temp < threshold["temp"]["hard"]:
         msg = f"<| CPU Temperatur ist zu hoch [{cpu.temprature()} °C] |>"
+        send_msg(msg=msg)
+
+    if cpu.is_linux and cpu_temp >= threshold["temp"]["hard"]:
+        msg = f"<| Warnung CPU Temperatur ist zu hoch [{cpu.temprature()} °C] |>"
         send_msg(msg=msg)
 
     log_mem = f"Used-Memory: {mem.get_used_mem()}"
