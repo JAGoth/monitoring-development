@@ -25,7 +25,7 @@ def main():
     compare("Speicherkapazität", threshold["storage"], av_disk_space, " GB", False)
 
     if cpu.is_linux:
-        compare("CPU Temprature", threshold["temp"], cpu_temp, " °C", True)
+        compare("CPU Temperatur", threshold["temp"], cpu_temp, " °C", True)
 
     log_mem = f"Used-Memory: {mem.get_used_mem()}"
     log_storage = f"Used-Storage: {storage.get_used_space()} GB"
