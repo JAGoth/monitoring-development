@@ -38,7 +38,7 @@ def main():
 def compare(resource, threshold, get_value, get_unit="",is_high=True):
     "Compares resource with threshold"
     send_msg = sendhook.Webhook
-    value = get_value()
+    value = get_value
 
     if is_high:
         if value >= threshold["hard"]:
