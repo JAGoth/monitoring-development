@@ -5,27 +5,46 @@ import sendhook
 
 def main():
     """Monitoring"""
-    # Values ar in GB and °C
+    # Schwellwerte sind in GB und °C
     threshold = {
     "mem": {"hard": 1, "soft": 2},
     "storage": {"hard": 15, "soft": 30},
     "temp": {"hard": 95, "soft": 85}
-    }
+}
 
     cpu = monitoring.GetCPU()
     mem = monitoring.GetMem()
     storage = monitoring.GetDisk()
+    send_msg = sendhook.Webhook
 
     av_mem_raw = mem.get_available_mem(raw = True)
     av_disk_space = storage.get_free_space()
     cpu_temp = cpu.temprature()
 
-    compare("Ramkapazität", threshold["mem"], av_mem_raw, " GB", False)
+    if av_mem_raw <= threshold["mem"]["soft"]:
+        msg = f"<| Ramkapazität ist zu niedrig [{mem.get_available_mem()}] |>"
+        send_msg(msg=msg)
 
-    compare("Speicherkapazität", threshold["storage"], av_disk_space, " GB", False)
+    if av_mem_raw <= threshold["mem"]["hard"]:
+        msg = f"<| Warnung Ramkapazität ist zu niedrig [{mem.get_available_mem()}] |>"
+        send_msg(msg=msg)    
 
-    if cpu.is_linux:
-        compare("CPU Temprature", threshold["temp"], cpu_temp, " °C", True)
+    if av_disk_space <= threshold["storage"]["soft"]:
+        msg = f"<| Speicherkapazität beträgt nur noch [{storage.get_free_space()} GB] |>"
+        send_msg(msg=msg)
+
+    if av_disk_space <= threshold["storage"]["hard"]:
+        msg = f"<| Warnung Speicherkapazität beträgt nur noch [{storage.get_free_space()} GB] |>"
+        send_msg(msg=msg)    
+
+
+    if cpu.is_linux and cpu_temp >= threshold["temp"]["soft"]:
+        msg = f"<| CPU Temperatur ist zu hoch [{cpu.temprature()} °C] |>"
+        send_msg(msg=msg)
+
+    if cpu.is_linux and cpu_temp >= threshold["temp"]["hard"]:
+        msg = f"<| Warnung CPU Temperatur ist zu hoch [{cpu.temprature()} °C] |>"
+        send_msg(msg=msg)
 
     log_mem = f"Used-Memory: {mem.get_used_mem()}"
     log_storage = f"Used-Storage: {storage.get_used_space()} GB"
@@ -34,26 +53,6 @@ def main():
     log_save = f"{log_cpu_temp} {log_cpu_load} {log_mem} {log_storage}"
 
     monitoring.write_log(log_entry=log_save)
-
-def compare(resource, threshold, get_value, get_unit="",is_high=True):
-    "Compares resource with threshold"
-    send_msg = sendhook.Webhook
-    value = get_value()
-
-    if is_high:
-        if value >= threshold["hard"]:
-            msg = f"<| Warnung {resource} ist zu hoch [{value}{get_unit}] |>"
-            send_msg(msg = msg)
-        elif value >= threshold["soft"]:
-            msg = f"<| {resource} ist zu hoch [{value}{get_unit}] |>"
-            send_msg(msg = msg)
-    else:
-        if value <= threshold["hard"]:
-            msg = f"<| Warnung {resource} ist zu niedrig [{value}{get_unit}] |>"
-            send_msg(msg=msg)
-        elif value <= threshold["soft"]:
-            msg = f"<| {resource} ist zu niedrig [{value}{get_unit}] |>"
-            send_msg(msg=msg)
 
 while True:
     try:
