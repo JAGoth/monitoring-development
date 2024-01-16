@@ -46,14 +46,14 @@ def compare(resource, threshold, get_value, get_unit="",is_high=True):
             send_msg(msg = msg)
         elif value >= threshold["soft"]:
             msg = f"<| {resource} ist zu hoch [{value}{get_unit}] |>"
-            send_msg(msg = msg)
+            send_msg(msg = msg).send_message()
     else:
         if value <= threshold["hard"]:
             msg = f"<| Warnung {resource} ist zu niedrig [{value}{get_unit}] |>"
-            send_msg(msg=msg)
+            send_msg(msg=msg).send_message()
         elif value <= threshold["soft"]:
             msg = f"<| {resource} ist zu niedrig [{value}{get_unit}] |>"
-            send_msg(msg=msg)
+            send_msg(msg=msg).send_message()
 
 while True:
     try:
